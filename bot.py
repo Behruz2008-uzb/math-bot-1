@@ -214,6 +214,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     test_info = db["tests"][test_code]
     results, total_correct, total_q = check_answers(test_info["answers"], user_answers)
     await update.message.reply_text(format_results(test_code, test_info, results, total_correct, total_q), parse_mode="HTML")
+    # Natijani saqlash (reyting uchun)
+db2 = load_db()
+if "results" not in db2:
+    db2["results"] = {}
+if test_code not in db2["results"]:
+    db2["results"][test_code] = []
+db2["results"][test_code].append({
+    "name": user.full_name,
+    "correct": total_correct,
+    "total": total_q
+})
+save_db(db2)
     if total_q > 0:
         try:
             await context.bot.send_message(
@@ -224,6 +236,25 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             logger.error(f"Admin xabar xato: {e}")
 
+async def reyting(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    args = context.args
+    if not args:
+        await update.message.reply_text("❌ Format: <code>/reyting KOD</code>", parse_mode="HTML")
+        return
+    test_code = args[0].strip()
+    db = load_db()
+    results = db.get("results", {}).get(test_code, [])
+    if not results:
+        await update.message.reply_text("📭 Bu test uchun hali natija yo'q.")
+        return
+    sorted_results = sorted(results, key=lambda x: x["correct"], reverse=True)
+    medals = ["🥇", "🥈", "🥉"]
+    text = f"🏆 <b>{test_code}-test reytingi:</b>\n\n"
+    for i, r in enumerate(sorted_results, 1):
+        medal = medals[i-1] if i <= 3 else f"{i}."
+        pct = r["correct"] / r["total"] * 100
+        text += f"{medal} {r['name']} — {r['correct']}/{r['total']} ({pct:.0f}%)\n"
+    await update.message.reply_text(text, parse_mode="HTML")
 def main():
     print("🤖 Matematika boti ishga tushmoqda...")
     app = Application.builder().token(BOT_TOKEN).build()
@@ -232,6 +263,7 @@ def main():
     app.add_handler(CommandHandler("testlar", list_tests))
     app.add_handler(CommandHandler("ochir", delete_test))
     app.add_handler(CallbackQueryHandler(check_sub_callback, pattern="^check_sub$"))
+    app.add_handler(CommandHandler("reyting", reyting))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     print("✅ Bot muvaffaqiyatli ishga tushdi!")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
