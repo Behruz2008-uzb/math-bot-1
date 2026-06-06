@@ -226,7 +226,7 @@ db2["results"][test_code].append({
     "total": total_q
 })
 save_db(db2)
-    if total_q > 0:
+ if total_q > 0:
         try:
             await context.bot.send_message(
                 chat_id=ADMIN_ID,
