@@ -17,10 +17,10 @@ from telegram.ext import (
 # =============================================
 #   SOZLAMALAR - BU YERLARNI TO'LDIRING
 # =============================================
-BOT_TOKEN = "SIZNING_BOT_TOKENINGIZ"        # @BotFather dan olingan token
-ADMIN_ID = 123456789                          # Sizning Telegram ID raqamingiz
-CHANNEL_USERNAME = "@sizning_kanalingiz"      # Kanal username (@ bilan)
-CHANNEL_ID = -1001234567890                   # Kanal ID (manfiy raqam)
+BOT_TOKEN = "7683500883:AAHRDN73k_4QTsgW6XSgaIaTZOQgIw7iOMg"        # @BotFather dan olingan token
+ADMIN_ID = 1431180517                          # Sizning Telegram ID raqamingiz
+CHANNEL_USERNAME = "@MS_MathMaster"      # Kanal username (@ bilan)
+CHANNEL_ID = -1001228415893                   # Kanal ID (manfiy raqam)
 ADMIN_NAME = "Behro'z Nurboboyev"            # Admin ismi (natijada ko'rinadi)
 # =============================================
 
