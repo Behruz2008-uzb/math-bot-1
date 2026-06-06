@@ -5,11 +5,11 @@ import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "SIZNING_TOKENINGIZ")
-ADMIN_ID = int(os.environ.get("ADMIN_ID", "123456789"))
-CHANNEL_USERNAME = os.environ.get("CHANNEL_USERNAME", "@kanalingiz")
-CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1001234567890"))
-ADMIN_NAME = os.environ.get("ADMIN_NAME", "Admin")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+ADMIN_ID = int(os.environ.get("ADMIN_ID"))
+CHANNEL_USERNAME = os.environ.get("CHANNEL_USERNAME")
+CHANNEL_ID = int(os.environ.get("CHANNEL_ID"))
+ADMIN_NAME = os.environ.get("ADMIN_NAME")
 
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
